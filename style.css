@@ -182,6 +182,9 @@
 
   @media (max-width:860px){
     .hero-grid{grid-template-columns:1fr;min-height:0}
+    .hero-copy{text-align:center;padding-bottom:clamp(16px,4vw,34px)}
+    .hero-lead{margin-left:auto;margin-right:auto}
+    .hero-cta{justify-content:center}
     .hero-photo{justify-self:center;margin-top:20px}
     .hero-photo img{max-height:520px}
     .work-grid{grid-template-columns:1fr 1fr}
@@ -292,3 +295,42 @@
     .proj .media.two{grid-template-columns:1fr}
     .proj .media.two img:first-child{grid-row:auto}
   }
+
+  /* ---- Form popup modal (GHL form in a scrollable dialog) ---- */
+  .form-cta{display:flex;flex-direction:column;align-items:flex-start;gap:.9rem}
+  .fmodal{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:clamp(10px,3vw,34px)}
+  .fmodal.open{display:flex}
+  .fmodal-bg{position:absolute;inset:0;background:rgba(15,16,21,.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .fmodal-card{position:relative;z-index:1;background:#fff;border-radius:12px;width:100%;max-width:540px;
+    height:88vh;height:88dvh;max-height:760px;display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 30px 90px rgba(15,16,21,.4);animation:fmup .32s cubic-bezier(.2,.7,.2,1)}
+  @keyframes fmup{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+  .fmodal-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:1.05rem 1.1rem 1.05rem 1.5rem;border-bottom:1px solid #ece7db;flex:none;background:#fff}
+  .fmodal-head .ttl{font-family:"Playfair Display",serif;font-size:1.15rem;color:var(--ink);line-height:1.1}
+  .fmodal-x{width:38px;height:38px;flex:none;border:none;border-radius:50%;background:#f1ede3;color:var(--ink);
+    font-size:1.35rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .fmodal-x:hover{background:#e5dfd0}
+  .fmodal-body{flex:1 1 auto;min-height:0;background:#fff}
+  .fmodal-body iframe{display:block;width:100%;height:100%;border:none;background:#fff}
+  body.fmodal-open{overflow:hidden}
+
+  /* ---- Featured print client card (Echo Pa Ti By Marislisa) ---- */
+  .print-feat{max-width:720px;margin:0 auto clamp(30px,4.5vw,52px);text-align:center;
+    border:1px solid var(--line);border-radius:12px;padding:clamp(26px,4vw,46px) clamp(20px,4vw,44px);background:var(--white)}
+  .print-feat .pf-cat{font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--taupe);margin-bottom:1rem}
+  .print-feat .pf-title{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.04;margin-bottom:.85rem}
+  .print-feat .pf-desc{color:var(--ink-soft);font-size:1rem;line-height:1.7;max-width:52ch;margin:0 auto 1.4rem}
+
+  /* ---- 404 page ---- */
+  .err{background:var(--ink);color:var(--oat);min-height:76vh;display:flex;align-items:center;position:relative;overflow:hidden}
+  .err-in{position:relative;z-index:1;text-align:center;margin-inline:auto;max-width:760px}
+  .err .label{color:var(--taupe)}
+  .err-code{font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:clamp(4.4rem,14vw,8.5rem);line-height:1;letter-spacing:-.02em;color:var(--taupe);margin:0 0 clamp(12px,2.4vw,24px);user-select:none}
+  .err-title{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2.2rem,6vw,4rem);line-height:1.02;margin-bottom:clamp(16px,2.5vw,26px)}
+  .err-title .it,.err-title .bk{color:#fff}
+  .err-lead{color:#c7bca4;font-size:1.02rem;line-height:1.7;max-width:52ch;margin:0 auto clamp(26px,3.5vw,40px)}
+  .err-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,44px)}
+  .err-links{display:flex;gap:clamp(1rem,3vw,2.2rem);justify-content:center;flex-wrap:wrap;font-size:.82rem;letter-spacing:.04em}
+  .err-links a{color:var(--taupe);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(155,142,126,.4);transition:color .25s}
+  .err-links a:hover{color:#fff}
