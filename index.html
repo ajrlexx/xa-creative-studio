@@ -74,7 +74,7 @@
         <h2 class="disp"><span class="bk">Lo que</span> <span class="it greige">creamos</span> <span class="bk">para ti.</span></h2>
         <p class="meta">Cada servicio está diseñado para que tu empresa comunique con claridad, impacte con estética y crezca con intención.</p>
       </div>
-      <div class="svc-list rv">
+      <div class="svc-list rv" id="svcList">
         <div class="svc"><div class="no">01</div><div><h3>Identidad Visual + Branding</h3><p class="d">Logo, paleta, tipografía, manual de marca y todo lo que necesitas para comunicar quién eres con coherencia y poder.</p></div><div class="pr"><small>Desde</small>$500 USD</div></div>
         <div class="svc"><div class="no">02</div><div><h3>Contenido Visual y Estratégico</h3><p class="d">Piezas visuales alineadas a tu estrategia de comunicación para conectar con tu audiencia ideal.</p></div><div class="pr"><small>Desde</small>$435 USD</div></div>
         <div class="svc"><div class="no">03</div><div><h3>Optimización y Manejo de Redes</h3><p class="d">Desde la planificación editorial hasta el análisis de resultados — con estrategia, constancia y creatividad.</p></div><div class="pr"><small>Desde</small>$200 USD</div></div>
@@ -93,7 +93,7 @@
         <h2 class="disp"><span class="it">Un banco de fotos</span> <span class="bk">100% tuyo.</span></h2>
         <p class="meta">Fotografía profesional y auténtica para tu web, tus redes y cada lugar donde tu marca necesite verse tan bien como lo que ofreces. Reserva la experiencia que va contigo.</p>
       </div>
-      <div class="exp-grid rv">
+      <div class="exp-grid rv" id="expGrid">
         <article class="exp">
           <div class="ph"><img src="/img/sess_brand.jpg" alt="Brand Photo Shoot"><span class="price">$195</span></div>
           <div class="body">
@@ -141,7 +141,7 @@
           </div>
         </article>
       </div>
-      <p class="exp-note rv">*Para servicios fuera de Barranquitas se aplica un cargo de traslado desde $75, según municipio, distancia y logística.</p>
+      <p class="exp-note rv" id="travelNote">*Para servicios fuera de Barranquitas se aplica un cargo de traslado desde $75, según municipio, distancia y logística.</p>
     </div>
   </section>
 
@@ -246,6 +246,7 @@
 <script>
 (function(){var els=document.querySelectorAll('.rv');if(!('IntersectionObserver'in window)||matchMedia('(prefers-reduced-motion:reduce)').matches){els.forEach(function(e){e.classList.add('in')});return;}var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1,rootMargin:'0px 0px -6% 0px'});els.forEach(function(e){io.observe(e)});})();
 </script>
+<script src="/js/catalog.js" defer></script>
 <div class="fmodal" id="formModal" aria-hidden="true">
   <div class="fmodal-bg" data-form-close></div>
   <div class="fmodal-card" role="dialog" aria-modal="true" aria-labelledby="fmTtl">

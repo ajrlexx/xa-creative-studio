@@ -99,7 +99,7 @@
   /* ---------- SESSIONS (fotografía) ---------- */
   .sessions{background:var(--white)}
   .exp-note{margin-top:1.2rem;font-size:.8rem;font-weight:500;color:var(--taupe);font-style:italic}
-  .exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,26px)}
+  .exp-grid{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:clamp(16px,2vw,26px)}
   .exp{display:flex;flex-direction:column;background:var(--oat);border:1px solid var(--line);
     border-radius:4px;overflow:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
   .exp:hover{transform:translateY(-5px);box-shadow:0 22px 40px rgba(15,16,21,.13)}
@@ -335,3 +335,9 @@
   .err-links{display:flex;gap:clamp(1rem,3vw,2.2rem);justify-content:center;flex-wrap:wrap;font-size:.82rem;letter-spacing:.04em}
   .err-links a{color:var(--taupe);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(155,142,126,.4);transition:color .25s}
   .err-links a:hover{color:#fff}
+
+  /* ofertas (editables desde /admin) */
+  .svc .pr s,.exp .ph .price s{opacity:.55;font-weight:500;margin-right:.3ch}
+  .svc .pr small.is-offer{color:#8a5a2b}
+  .exp .ph .offer-tag{position:absolute;top:12px;left:12px;background:var(--oat);color:var(--ink);
+    font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.45em .9em;border-radius:999px}

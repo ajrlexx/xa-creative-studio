@@ -1,0 +1,422 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel admin · XA Creative Studio</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F1015">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500..800;1,500&family=Poppins:wght@400;500;600&display=swap">
+<style>
+  :root{--oat:#E4E1D7;--oat-d:#DAD6C9;--white:#FBFAF7;--ink:#0F1015;--ink-soft:#3a3b40;--taupe:#9B8E7E;--line:#C9BFAD;--ok:#2f6b3a;--bad:#a3322a;--offer:#8a5a2b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--oat);color:var(--ink);font-family:Poppins,system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{margin:0;font-family:"Playfair Display",Georgia,serif;font-weight:600;line-height:1.1}
+  button,input,textarea,select{font:inherit;color:inherit}
+  [hidden]{display:none!important}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px}
+
+  /* login */
+  .login{min-height:100dvh;display:grid;place-items:center;padding:24px 16px;background:var(--ink)}
+  .login form{width:100%;max-width:380px;background:var(--white);border-radius:14px;padding:32px 26px;display:flex;flex-direction:column;gap:14px}
+  .login img{width:64px;margin:0 auto 4px;background:var(--ink);border-radius:50%;padding:12px}
+  .login h1{text-align:center;font-size:1.6rem}
+  .login p{text-align:center;color:var(--ink-soft);font-size:.88rem;margin:0}
+
+  /* barra superior */
+  .top{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--oat)}
+  .top .wrap{display:flex;align-items:center;gap:12px;height:58px}
+  .top .brand{font-family:"Playfair Display",serif;font-size:1.15rem;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top .brand em{font-weight:500;color:var(--taupe)}
+  .top a,.top button{background:none;border:0;color:var(--oat);font-size:.78rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:8px 4px;text-decoration:none}
+  .top a:hover,.top button:hover{color:#fff;text-decoration:underline}
+
+  .tabs{display:flex;gap:6px;margin:22px 0 8px;border-bottom:1px solid var(--line)}
+  .tab{background:none;border:0;padding:12px 14px;font-weight:600;font-size:.86rem;color:var(--ink-soft);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+  .tab[aria-selected=true]{color:var(--ink);border-color:var(--ink)}
+  .hint{color:var(--ink-soft);font-size:.86rem;margin:12px 0 18px}
+
+  /* tarjetas */
+  .item{background:var(--white);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+  .item.off{opacity:.62}
+  .item-head{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
+  .item-head .ttl{flex:1;min-width:0}
+  .item-head .ttl b{display:block;font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item-head .ttl span{font-size:.78rem;color:var(--ink-soft)}
+  .pill{font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.35em .75em;border-radius:999px;white-space:nowrap}
+  .pill.offer{background:#f3e5d3;color:var(--offer)}
+  .pill.hidden{background:var(--oat-d);color:var(--ink-soft)}
+  .chev{transition:transform .2s;font-size:.9rem;color:var(--taupe)}
+  .item.open .chev{transform:rotate(180deg)}
+  .item-body{display:none;padding:4px 14px 16px;border-top:1px solid var(--oat-d)}
+  .item.open .item-body{display:block}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-top:12px}
+  .full{grid-column:1/-1}
+  label.f{display:flex;flex-direction:column;gap:5px;font-size:.74rem;font-weight:600;letter-spacing:.04em;color:var(--ink-soft)}
+  label.f small{font-weight:400;letter-spacing:0;color:var(--taupe)}
+  input[type=text],input[type=number],input[type=url],input[type=date],input[type=password],textarea,select{
+    width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:16px;font-weight:400;color:var(--ink)}
+  textarea{resize:vertical;min-height:84px}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:var(--ink)}
+  .money{position:relative}
+  .money::before{content:"$";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--taupe);font-size:16px}
+  .money input{padding-left:24px}
+
+  .switch{display:flex;align-items:center;gap:10px;font-size:.86rem;font-weight:500;cursor:pointer}
+  .switch input{appearance:none;width:42px;height:24px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .2s;margin:0}
+  .switch input::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+  .switch input:checked{background:var(--ink)}
+  .switch input:checked::after{transform:translateX(18px)}
+  .switch.offer input:checked{background:var(--offer)}
+
+  .offerbox{grid-column:1/-1;background:#faf3ea;border:1px dashed #d9bf9c;border-radius:10px;padding:12px}
+  .offerbox .grid{margin-top:10px;grid-template-columns:1fr 1fr 1fr}
+  .photo{display:flex;gap:12px;align-items:center}
+  .photo img{width:78px;height:96px;object-fit:cover;border-radius:8px;background:var(--oat-d);flex:none}
+
+  .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--oat-d)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6ch;border:1px solid var(--ink);background:var(--ink);color:var(--oat);border-radius:999px;padding:11px 20px;font-size:.8rem;font-weight:600;letter-spacing:.04em;cursor:pointer;text-decoration:none}
+  .btn:hover{background:#000}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost:hover{background:var(--oat-d)}
+  .btn.sm{padding:7px 13px;font-size:.74rem}
+  .btn.danger{border-color:var(--bad);color:var(--bad);background:transparent}
+  .btn.danger:hover{background:#f6e3e1}
+  .btn.block{width:100%}
+  .add{width:100%;border:1.5px dashed var(--taupe);background:transparent;border-radius:12px;padding:16px;font-weight:600;color:var(--ink-soft);cursor:pointer;margin:4px 0 18px}
+  .add:hover{background:var(--white);color:var(--ink)}
+
+  .extra{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:24px}
+
+  /* barra guardar */
+  .savebar{position:sticky;bottom:0;z-index:20;background:rgba(251,250,247,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);margin-top:24px}
+  .savebar .wrap{display:flex;align-items:center;gap:12px;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+  .savebar .st{flex:1;font-size:.84rem;color:var(--ink-soft)}
+  .savebar .st.dirty{color:var(--offer);font-weight:600}
+  .msg{font-size:.84rem;color:var(--bad);text-align:center;min-height:1.2em;margin:0}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--oat);padding:12px 20px;border-radius:999px;font-size:.86rem;font-weight:500;opacity:0;pointer-events:none;transition:.25s;z-index:50;max-width:calc(100% - 32px);text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.err{background:var(--bad)}
+
+  @media (max-width:600px){
+    .grid,.offerbox .grid{grid-template-columns:1fr}
+    .top .brand em{display:none}
+    .actions .btn{flex:1}
+  }
+</style>
+</head><body>
+
+<!-- LOGIN -->
+<section class="login" id="loginView" hidden>
+  <form id="loginForm" autocomplete="on">
+    <img src="/img/logo.png" alt="">
+    <h1>Panel admin</h1>
+    <p>Entra para editar tus servicios y precios.</p>
+    <input type="text" name="username" value="admin" autocomplete="username" hidden>
+    <input type="password" id="pw" name="password" placeholder="Contraseña" autocomplete="current-password" required>
+    <button class="btn block" type="submit" id="loginBtn">Entrar</button>
+    <p class="msg" id="loginMsg"></p>
+  </form>
+</section>
+
+<!-- PANEL -->
+<div id="appView" hidden>
+  <header class="top"><div class="wrap">
+    <div class="brand">XA Creative Studio <em>· Panel admin</em></div>
+    <a href="/#servicios" target="_blank" rel="noopener">Ver sitio ↗</a>
+    <button type="button" id="logout">Salir</button>
+  </div></header>
+
+  <main class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-tab="services">Servicios</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="sessions">Sesiones de fotografía</button>
+    </div>
+
+    <section data-panel="services">
+      <p class="hint">Estos aparecen en la lista <b>“Nuestros servicios”</b> de la página de inicio, en este orden. Toca uno para editarlo.</p>
+      <div id="servicesList"></div>
+      <button class="add" type="button" data-add="services">+ Añadir servicio</button>
+    </section>
+
+    <section data-panel="sessions" hidden>
+      <p class="hint">Estas son las tarjetas de <b>“Sesiones de Fotografía”</b> con foto, lo que incluye y el botón de reservar.</p>
+      <div id="sessionsList"></div>
+      <button class="add" type="button" data-add="sessions">+ Añadir sesión</button>
+      <div class="extra">
+        <label class="f">Nota debajo de las sesiones <small>(déjala vacía para ocultarla)</small>
+          <textarea id="travelNote" rows="2"></textarea>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <div class="savebar"><div class="wrap">
+    <span class="st" id="status">Todo guardado</span>
+    <button class="btn ghost sm" type="button" id="discard" hidden>Descartar</button>
+    <button class="btn" type="button" id="save" disabled>Guardar cambios</button>
+  </div></div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<template id="tplService">
+  <div class="item">
+    <div class="item-head" data-toggle>
+      <div class="ttl"><b data-k="title"></b><span data-k="sub"></span></div>
+      <span class="pill offer" data-k="offerPill" hidden>Oferta</span>
+      <span class="pill hidden" data-k="hiddenPill" hidden>Oculto</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="item-body">
+      <div class="grid">
+        <label class="f full">Nombre del servicio<input type="text" data-f="name" maxlength="120"></label>
+        <label class="f full">Descripción<textarea data-f="desc" maxlength="800" rows="3"></textarea></label>
+        <label class="f">Texto sobre el precio <small>ej. Desde, Sesión, A</small><input type="text" data-f="prefix" maxlength="20" list="prefixes"></label>
+        <label class="f">Precio (USD) <small>vacío = sin precio fijo</small><span class="money"><input type="number" data-f="price" min="0" step="1" inputmode="decimal"></span></label>
+        <label class="f full" data-show-if-noprice>Texto si no hay precio <small>ej. Cotización</small><input type="text" data-f="priceNote" maxlength="40"></label>
+        <div class="offerbox">
+          <label class="switch offer"><input type="checkbox" data-f="offer.active"> Poner en oferta</label>
+          <div class="grid" data-offer-fields>
+            <label class="f">Precio de oferta<span class="money"><input type="number" data-f="offer.price" min="0" step="1" inputmode="decimal"></span></label>
+            <label class="f">Etiqueta<input type="text" data-f="offer.label" maxlength="40" placeholder="Oferta"></label>
+            <label class="f">Termina <small>opcional</small><input type="date" data-f="offer.until"></label>
+          </div>
+        </div>
+        <label class="switch full"><input type="checkbox" data-f="visible"> Mostrar en la página</label>
+      </div>
+      <div class="actions">
+        <button class="btn ghost sm" type="button" data-act="up">↑ Subir</button>
+        <button class="btn ghost sm" type="button" data-act="down">↓ Bajar</button>
+        <button class="btn ghost sm" type="button" data-act="dup">Duplicar</button>
+        <button class="btn danger sm" type="button" data-act="del">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="tplSession">
+  <div class="item">
+    <div class="item-head" data-toggle>
+      <div class="ttl"><b data-k="title"></b><span data-k="sub"></span></div>
+      <span class="pill offer" data-k="offerPill" hidden>Oferta</span>
+      <span class="pill hidden" data-k="hiddenPill" hidden>Oculto</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="item-body">
+      <div class="grid">
+        <div class="photo full">
+          <img data-k="photo" alt="">
+          <div>
+            <label class="btn ghost sm" style="cursor:pointer">Cambiar foto<input type="file" accept="image/*" data-upload hidden></label>
+            <p class="hint" style="margin:6px 0 0;font-size:.76rem">Se ajusta sola. Mejor en vertical.</p>
+          </div>
+        </div>
+        <label class="f full">Nombre de la sesión<input type="text" data-f="name" maxlength="120"></label>
+        <label class="f full">Línea pequeña de arriba <small>ej. Brand Photo Shoot · 20 min</small><input type="text" data-f="duration" maxlength="120"></label>
+        <label class="f full">Descripción<textarea data-f="desc" maxlength="800" rows="3"></textarea></label>
+        <label class="f full">Qué incluye <small>una cosa por línea</small><textarea data-f="features" rows="5"></textarea></label>
+        <label class="f">Precio (USD)<span class="money"><input type="number" data-f="price" min="0" step="1" inputmode="decimal"></span></label>
+        <label class="f">Enlace para reservar<input type="url" data-f="bookingUrl" placeholder="https://"></label>
+        <div class="offerbox">
+          <label class="switch offer"><input type="checkbox" data-f="offer.active"> Poner en oferta</label>
+          <div class="grid" data-offer-fields>
+            <label class="f">Precio de oferta<span class="money"><input type="number" data-f="offer.price" min="0" step="1" inputmode="decimal"></span></label>
+            <label class="f">Etiqueta<input type="text" data-f="offer.label" maxlength="40" placeholder="Oferta"></label>
+            <label class="f">Termina <small>opcional</small><input type="date" data-f="offer.until"></label>
+          </div>
+        </div>
+        <label class="switch full"><input type="checkbox" data-f="visible"> Mostrar en la página</label>
+      </div>
+      <div class="actions">
+        <button class="btn ghost sm" type="button" data-act="up">↑ Subir</button>
+        <button class="btn ghost sm" type="button" data-act="down">↓ Bajar</button>
+        <button class="btn ghost sm" type="button" data-act="dup">Duplicar</button>
+        <button class="btn danger sm" type="button" data-act="del">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<datalist id="prefixes"><option value="Desde"><option value="Sesión"><option value="A"><option value="Paquete"></datalist>
+
+<script>
+(function(){
+  var $ = function(s, r){ return (r||document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+  var data = null, saved = '', openIds = {}, tab = 'services';
+
+  function toast(t, err){ var el=$('#toast'); el.textContent=t; el.className='toast show'+(err?' err':''); clearTimeout(toast.t); toast.t=setTimeout(function(){ el.className='toast'; }, 2600); }
+  function uid(){ return Math.random().toString(36).slice(2,10); }
+  function money(n){ return n==null||n==='' ? '' : '$'+Number(n).toLocaleString('en-US'); }
+  function today(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function offerLive(o){ return o && o.active && o.price!=null && o.price!=='' && (!o.until || o.until>=today()); }
+  function api(path, opts){
+    opts = opts || {}; opts.credentials='same-origin';
+    opts.headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+    return fetch(path, opts).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(b){ if(r.status===401 && path!=='/api/admin/login'){ showLogin(); } if(!r.ok){ var e=new Error(b.error||'error'); e.status=r.status; throw e; } return b; });
+    });
+  }
+
+  /* ---------- vistas ---------- */
+  function showLogin(){ $('#appView').hidden=true; $('#loginView').hidden=false; setTimeout(function(){ $('#pw').focus(); }, 50); }
+  function showApp(){ $('#loginView').hidden=true; $('#appView').hidden=false; }
+
+  $('#loginForm').addEventListener('submit', function(e){
+    e.preventDefault(); var b=$('#loginBtn'); b.disabled=true; $('#loginMsg').textContent='';
+    api('/api/admin/login', {method:'POST', body:JSON.stringify({password:$('#pw').value})})
+      .then(function(){ $('#pw').value=''; load(); })
+      .catch(function(err){ $('#loginMsg').textContent = err.status===401 ? 'Contraseña incorrecta.' : err.status===503 ? 'El panel aún no tiene contraseña configurada.' : 'No se pudo entrar. Intenta otra vez.'; })
+      .then(function(){ b.disabled=false; });
+  });
+  $('#logout').addEventListener('click', function(){
+    if(isDirty() && !confirm('Tienes cambios sin guardar. ¿Salir de todos modos?')) return;
+    api('/api/admin/login', {method:'DELETE'}).then(function(){ data=null; saved=''; showLogin(); });
+  });
+
+  function load(){
+    return api('/api/admin/services').then(function(d){
+      d.services = d.services||[]; d.sessions = d.sessions||[];
+      data = d; saved = snap(); render(); showApp();
+    }).catch(function(e){ if(e.status!==401) toast('No se pudieron cargar los datos.', true); });
+  }
+
+  /* ---------- tabs ---------- */
+  $$('.tab').forEach(function(t){ t.addEventListener('click', function(){
+    tab = t.dataset.tab;
+    $$('.tab').forEach(function(x){ x.setAttribute('aria-selected', x===t); });
+    $$('[data-panel]').forEach(function(p){ p.hidden = p.dataset.panel!==tab; });
+  }); });
+
+  /* ---------- render ---------- */
+  function get(o, path){ return path.split('.').reduce(function(a,k){ return a==null?a:a[k]; }, o); }
+  function set(o, path, v){ var ks=path.split('.'), last=ks.pop(); ks.forEach(function(k){ if(!o[k]) o[k]={}; o=o[k]; }); o[last]=v; }
+
+  function render(){
+    ['services','sessions'].forEach(function(kind){
+      var box = $(kind==='services' ? '#servicesList' : '#sessionsList'); box.innerHTML='';
+      data[kind].forEach(function(item, i){ box.appendChild(card(kind, item, i)); });
+    });
+    $('#travelNote').value = data.travelNote || '';
+    updateStatus();
+  }
+
+  function card(kind, item, i){
+    var tpl = $(kind==='services' ? '#tplService' : '#tplSession').content.firstElementChild.cloneNode(true);
+    if(!item.offer) item.offer = {active:false, price:null, label:'Oferta', until:''};
+    if(openIds[item.id]) tpl.classList.add('open');
+
+    $$('[data-f]', tpl).forEach(function(inp){
+      var f = inp.dataset.f, v = get(item, f);
+      if(inp.type==='checkbox') inp.checked = f==='visible' ? v!==false : !!v;
+      else if(f==='features') inp.value = (v||[]).join('\n');
+      else inp.value = v==null ? '' : v;
+      inp.addEventListener('input', function(){
+        var nv;
+        if(inp.type==='checkbox') nv = inp.checked;
+        else if(inp.type==='number') nv = inp.value==='' ? null : Number(inp.value);
+        else if(f==='features') nv = inp.value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+        else nv = inp.value;
+        set(item, f, nv); refreshHead(tpl, kind, item); updateStatus();
+      });
+    });
+
+    var up = $('[data-upload]', tpl);
+    if(up) up.addEventListener('change', function(){ if(up.files[0]) uploadPhoto(up.files[0], item, tpl); up.value=''; });
+
+    $('[data-toggle]', tpl).addEventListener('click', function(){ tpl.classList.toggle('open'); openIds[item.id] = tpl.classList.contains('open'); });
+    $$('[data-act]', tpl).forEach(function(b){ b.addEventListener('click', function(){ act(kind, item, b.dataset.act); }); });
+    refreshHead(tpl, kind, item);
+    return tpl;
+  }
+
+  function refreshHead(el, kind, item){
+    $('[data-k=title]', el).textContent = item.name || (kind==='services' ? 'Servicio sin nombre' : 'Sesión sin nombre');
+    var live = offerLive(item.offer), price;
+    if(item.price==null || item.price==='') price = kind==='services' ? ((item.prefix?item.prefix+' ':'') + (item.priceNote||'Cotización')) : 'Sin precio';
+    else price = (kind==='services' && item.prefix ? item.prefix+' ' : '') + (live ? money(item.offer.price)+' (antes '+money(item.price)+')' : money(item.price));
+    $('[data-k=sub]', el).textContent = price;
+    $('[data-k=offerPill]', el).hidden = !live;
+    $('[data-k=offerPill]', el).textContent = item.offer && item.offer.label || 'Oferta';
+    $('[data-k=hiddenPill]', el).hidden = item.visible!==false;
+    el.classList.toggle('off', item.visible===false);
+    $('[data-offer-fields]', el).hidden = !(item.offer && item.offer.active);
+    var np = $('[data-show-if-noprice]', el); if(np) np.hidden = !(item.price==null || item.price==='');
+    var ph = $('[data-k=photo]', el); if(ph){ if(item.image){ ph.src=item.image; ph.style.visibility=''; } else ph.style.visibility='hidden'; }
+  }
+
+  function act(kind, item, a){
+    var arr = data[kind], i = arr.indexOf(item);
+    if(a==='up' && i>0){ arr.splice(i,1); arr.splice(i-1,0,item); }
+    else if(a==='down' && i<arr.length-1){ arr.splice(i,1); arr.splice(i+1,0,item); }
+    else if(a==='dup'){ var c = JSON.parse(JSON.stringify(item)); c.id=uid(); c.name=(c.name||'')+' (copia)'; arr.splice(i+1,0,c); openIds[c.id]=true; }
+    else if(a==='del'){ if(!confirm('¿Eliminar “'+(item.name||'este elemento')+'”? Podrás deshacerlo con “Descartar” mientras no guardes.')) return; arr.splice(i,1); }
+    else return;
+    render();
+  }
+
+  $$('[data-add]').forEach(function(b){ b.addEventListener('click', function(){
+    var kind = b.dataset.add, id = uid();
+    var item = kind==='services'
+      ? {id:id, visible:true, name:'', desc:'', prefix:'Desde', price:null, priceNote:'', offer:{active:false,price:null,label:'Oferta',until:''}}
+      : {id:id, visible:true, name:'', duration:'', desc:'', features:[], price:null, image:'', bookingUrl:'', offer:{active:false,price:null,label:'Oferta',until:''}};
+    data[kind].push(item); openIds[id]=true; render();
+    var cards = $$((kind==='services'?'#servicesList':'#sessionsList')+' .item'), last = cards[cards.length-1];
+    last.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(function(){ $('[data-f=name]', last).focus(); }, 300);
+  }); });
+
+  $('#travelNote').addEventListener('input', function(e){ data.travelNote = e.target.value; updateStatus(); });
+
+  /* ---------- foto ---------- */
+  function uploadPhoto(file, item, el){
+    if(!/^image\//.test(file.type)){ toast('Ese archivo no es una imagen.', true); return; }
+    toast('Subiendo foto…');
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function(){
+      var max = 1400, s = Math.min(1, max/Math.max(img.width, img.height));
+      var c = document.createElement('canvas'); c.width = Math.round(img.width*s); c.height = Math.round(img.height*s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      api('/api/admin/upload', {method:'POST', body:JSON.stringify({dataUrl:c.toDataURL('image/jpeg', .85)})})
+        .then(function(r){ item.image = r.url; refreshHead(el, 'sessions', item); updateStatus(); toast('Foto lista. Recuerda guardar.'); })
+        .catch(function(){ toast('No se pudo subir la foto.', true); });
+    };
+    img.onerror = function(){ toast('No se pudo leer esa imagen.', true); };
+    img.src = url;
+  }
+
+  /* ---------- guardar ---------- */
+  function snap(){ return JSON.stringify({s:data.services, x:data.sessions, t:data.travelNote||''}); }
+  function isDirty(){ return data && snap()!==saved; }
+  function updateStatus(){
+    var d = isDirty(), st = $('#status');
+    st.textContent = d ? 'Tienes cambios sin guardar' : (data && data.updatedAt ? 'Guardado · '+new Date(data.updatedAt).toLocaleString('es-PR',{dateStyle:'medium',timeStyle:'short'}) : 'Todo guardado');
+    st.classList.toggle('dirty', d); $('#save').disabled = !d; $('#discard').hidden = !d;
+  }
+  function problems(){
+    var p = [];
+    data.services.forEach(function(s,i){ if(!s.name.trim()) p.push('El servicio #'+(i+1)+' no tiene nombre.'); if(s.offer.active && (s.offer.price==null||s.offer.price==='')) p.push('“'+(s.name||'Servicio #'+(i+1))+'” está en oferta pero sin precio de oferta.'); });
+    data.sessions.forEach(function(s,i){ if(!s.name.trim()) p.push('La sesión #'+(i+1)+' no tiene nombre.'); if(s.offer.active && (s.offer.price==null||s.offer.price==='')) p.push('“'+(s.name||'Sesión #'+(i+1))+'” está en oferta pero sin precio de oferta.'); });
+    return p;
+  }
+  $('#save').addEventListener('click', function(){
+    var p = problems(); if(p.length){ alert(p.join('\n')); return; }
+    var b = $('#save'); b.disabled = true; b.textContent = 'Guardando…';
+    api('/api/admin/services', {method:'PUT', body:JSON.stringify(data)})
+      .then(function(d){ data = d; saved = snap(); render(); toast('¡Guardado! Tu página se actualiza en unos segundos.'); })
+      .catch(function(e){ if(e.status!==401) toast('No se pudo guardar. Intenta otra vez.', true); })
+      .then(function(){ b.textContent = 'Guardar cambios'; updateStatus(); });
+  });
+  $('#discard').addEventListener('click', function(){
+    if(!confirm('¿Descartar todos los cambios sin guardar?')) return;
+    var o = JSON.parse(saved); data.services=o.s; data.sessions=o.x; data.travelNote=o.t; render();
+  });
+  window.addEventListener('beforeunload', function(e){ if(isDirty()){ e.preventDefault(); e.returnValue=''; } });
+
+  /* ---------- inicio ---------- */
+  api('/api/admin/login').then(function(r){ if(r.authed) load(); else showLogin(); }).catch(showLogin);
+})();
+</script>
+</body></html>
